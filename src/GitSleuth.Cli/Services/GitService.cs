@@ -36,4 +36,37 @@ public static class GitService
             return null;
         }
     }
+
+    /// <summary>
+    /// Returns the short SHA of the currently checked-out commit in the given working directory,
+    /// or null if the directory is not a Git repository or has no commits yet.
+    /// </summary>
+    public static string? GetCurrentCommit(string workingDirectory)
+    {
+        try
+        {
+            var psi = new ProcessStartInfo("git", "rev-parse --short HEAD")
+            {
+                WorkingDirectory = workingDirectory,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false
+            };
+
+            using var process = Process.Start(psi);
+            if (process is null)
+            {
+                return null;
+            }
+
+            var output = process.StandardOutput.ReadToEnd().Trim();
+            process.WaitForExit();
+
+            return process.ExitCode == 0 && !string.IsNullOrWhiteSpace(output) ? output : null;
+        }
+        catch
+        {
+            return null;
+        }
+    }
 }

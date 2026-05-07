@@ -26,7 +26,8 @@ public static class LogCommand
             {
                 var visit = visits[i];
                 var localTime = visit.VisitedAt.ToLocalTime();
-                Console.WriteLine($"  {i + 1,3}. [{localTime:yyyy-MM-dd HH:mm:ss}]  {visit.BranchName}");
+                var commitSuffix = string.IsNullOrWhiteSpace(visit.CommitSha) ? "" : $"  ({visit.CommitSha})";
+                Console.WriteLine($"  {i + 1,3}. [{localTime:yyyy-MM-dd HH:mm:ss}]  {visit.BranchName}{commitSuffix}");
                 if (!string.IsNullOrWhiteSpace(visit.WorkingDirectory))
                 {
                     Console.WriteLine($"       {visit.WorkingDirectory}");

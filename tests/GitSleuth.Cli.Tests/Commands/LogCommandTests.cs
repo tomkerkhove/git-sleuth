@@ -101,6 +101,26 @@ public class LogCommandTests : IDisposable
         Assert.DoesNotContain("1 visits", output);
     }
 
+    [Fact]
+    public async Task Log_ShowsCommitSha_WhenPresent()
+    {
+        _sessionService.RecordVisit("main", "/my/repo", "abc1234");
+
+        var output = await CaptureOutputAsync(() => LogCommand.Build(_sessionService).InvokeAsync([]));
+
+        Assert.Contains("abc1234", output);
+    }
+
+    [Fact]
+    public async Task Log_DoesNotShowCommitSuffix_WhenCommitShaIsNull()
+    {
+        _sessionService.RecordVisit("main", "/my/repo");
+
+        var output = await CaptureOutputAsync(() => LogCommand.Build(_sessionService).InvokeAsync([]));
+
+        Assert.DoesNotContain("()", output);
+    }
+
     private static async Task<string> CaptureOutputAsync(Func<Task<int>> action)
     {
         var original = Console.Out;

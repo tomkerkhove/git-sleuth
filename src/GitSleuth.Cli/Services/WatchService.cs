@@ -9,16 +9,23 @@ public class WatchService
 {
     private readonly SessionService _sessionService;
     private readonly Func<string, string?> _getCurrentBranch;
+    private readonly Func<string, string?> _getCurrentCommit;
 
     public WatchService(SessionService sessionService)
-        : this(sessionService, GitService.GetCurrentBranch)
+        : this(sessionService, GitService.GetCurrentBranch, GitService.GetCurrentCommit)
     {
     }
 
     public WatchService(SessionService sessionService, Func<string, string?> getCurrentBranch)
+        : this(sessionService, getCurrentBranch, GitService.GetCurrentCommit)
+    {
+    }
+
+    public WatchService(SessionService sessionService, Func<string, string?> getCurrentBranch, Func<string, string?> getCurrentCommit)
     {
         _sessionService = sessionService;
         _getCurrentBranch = getCurrentBranch;
+        _getCurrentCommit = getCurrentCommit;
     }
 
     /// <summary>
@@ -46,14 +53,16 @@ public class WatchService
 
             if (!string.IsNullOrWhiteSpace(currentBranch) && currentBranch != lastBranch)
             {
+                var commitSha = _getCurrentCommit(directory);
                 var visit = new BranchVisit
                 {
                     BranchName = currentBranch,
                     VisitedAt = DateTimeOffset.UtcNow,
-                    WorkingDirectory = directory
+                    WorkingDirectory = directory,
+                    CommitSha = commitSha
                 };
 
-                _sessionService.RecordVisit(currentBranch, directory);
+                _sessionService.RecordVisit(currentBranch, directory, commitSha);
                 onBranchChanged?.Invoke(visit);
 
                 lastBranch = currentBranch;

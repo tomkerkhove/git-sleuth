@@ -10,6 +10,7 @@ rootCommand.AddCommand(VisitCommand.Build(sessionService));
 rootCommand.AddCommand(WatchCommand.Build(sessionService));
 rootCommand.AddCommand(LogCommand.Build(sessionService));
 rootCommand.AddCommand(ListCommand.Build(sessionService));
+rootCommand.AddCommand(StatsCommand.Build(sessionService));
 rootCommand.AddCommand(ClearCommand.Build(sessionService));
 
 return await rootCommand.InvokeAsync(args);

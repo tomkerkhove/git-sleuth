@@ -23,16 +23,17 @@ public class SessionService
     }
 
     /// <summary>
-    /// Records a visit to the specified branch, optionally capturing the working directory.
+    /// Records a visit to the specified branch, optionally capturing the working directory and commit SHA.
     /// </summary>
-    public void RecordVisit(string branchName, string? workingDirectory = null)
+    public void RecordVisit(string branchName, string? workingDirectory = null, string? commitSha = null)
     {
         var session = LoadSession();
         session.Visits.Add(new BranchVisit
         {
             BranchName = branchName,
             VisitedAt = DateTimeOffset.UtcNow,
-            WorkingDirectory = workingDirectory
+            WorkingDirectory = workingDirectory,
+            CommitSha = commitSha
         });
         SaveSession(session);
     }
@@ -53,6 +54,21 @@ public class SessionService
         return LoadSession().Visits
             .Select(v => v.BranchName)
             .Distinct(StringComparer.Ordinal)
+            .ToList()
+            .AsReadOnly();
+    }
+
+    /// <summary>
+    /// Returns the branches visited in the current session, sorted by visit count descending.
+    /// Each entry contains the branch name and how many times it was visited.
+    /// </summary>
+    public IReadOnlyList<(string BranchName, int Count)> GetBranchVisitCounts()
+    {
+        return LoadSession().Visits
+            .GroupBy(v => v.BranchName, StringComparer.Ordinal)
+            .Select(g => (BranchName: g.Key, Count: g.Count()))
+            .OrderByDescending(x => x.Count)
+            .ThenBy(x => x.BranchName, StringComparer.Ordinal)
             .ToList()
             .AsReadOnly();
     }

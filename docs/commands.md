@@ -44,6 +44,39 @@ git-sleuth watch --quiet &
 
 ---
 
+## `stats` — session statistics
+
+> Show statistics about the branches visited in the current session.
+
+```bash
+git-sleuth stats
+```
+
+Displays:
+- Total visits and unique branch count
+- Session start time, end time, and duration
+- Per-branch visit counts sorted from most to least visited
+
+### Example output
+
+```
+Session statistics (6 visits, 3 unique branches):
+
+  Session started:  2026-05-07 09:14:02
+  Session ended:    2026-05-07 10:05:33
+  Duration:         51m 31s
+
+  Branch visit counts (most visited first):
+
+    main          3 visits
+    feature/login 2 visits
+    hotfix/typo   1 visit
+```
+
+Duration formatting uses `Xm Ys` below one hour and `Xh Ym Zs` at one hour or above (for example: `1h 2m 3s`).
+
+---
+
 ## `log` — full visit history
 
 > Show the complete chronological list of branch visits recorded this session.
@@ -55,7 +88,7 @@ git-sleuth log
 Each entry shows:
 - A sequential index
 - The local timestamp of the visit
-- The branch name
+- The branch name and the short commit SHA at the time of the visit (when available)
 - The working directory at the time
 
 ### Example output
@@ -63,9 +96,9 @@ Each entry shows:
 ```
 Branch visit log (4 visits):
 
-    1. [2026-05-07 09:14:02]  feature/login
+    1. [2026-05-07 09:14:02]  feature/login  (abc1234)
        /Users/you/projects/my-repo
-    2. [2026-05-07 09:31:17]  main
+    2. [2026-05-07 09:31:17]  main  (def5678)
        /Users/you/projects/my-repo
     3. [2026-05-07 09:33:05]  hotfix/typo
        /Users/you/projects/my-repo
