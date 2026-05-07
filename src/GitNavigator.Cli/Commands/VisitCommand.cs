@@ -1,5 +1,4 @@
 using System.CommandLine;
-using System.Diagnostics;
 using GitNavigator.Cli.Services;
 
 namespace GitNavigator.Cli.Commands;
@@ -20,46 +19,18 @@ public static class VisitCommand
 
         command.SetHandler(branch =>
         {
-            var branchName = branch ?? GetCurrentGitBranch();
+            var workingDirectory = Directory.GetCurrentDirectory();
+            var branchName = branch ?? GitService.GetCurrentBranch(workingDirectory);
             if (string.IsNullOrWhiteSpace(branchName))
             {
                 Console.Error.WriteLine("Could not determine the current branch. Please specify a branch name explicitly.");
                 return;
             }
 
-            var workingDirectory = Directory.GetCurrentDirectory();
             sessionService.RecordVisit(branchName, workingDirectory);
             Console.WriteLine($"Visited branch '{branchName}'.");
         }, branchArgument);
 
         return command;
-    }
-
-    private static string? GetCurrentGitBranch()
-    {
-        try
-        {
-            var psi = new ProcessStartInfo("git", "branch --show-current")
-            {
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false
-            };
-
-            using var process = Process.Start(psi);
-            if (process is null)
-            {
-                return null;
-            }
-
-            var output = process.StandardOutput.ReadToEnd().Trim();
-            process.WaitForExit();
-
-            return process.ExitCode == 0 && !string.IsNullOrWhiteSpace(output) ? output : null;
-        }
-        catch
-        {
-            return null;
-        }
     }
 }

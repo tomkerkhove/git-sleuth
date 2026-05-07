@@ -7,6 +7,7 @@ var sessionService = new SessionService();
 var rootCommand = new RootCommand("Git Navigator - your travel buddy for tracking Git branch visits in a CLI session.");
 
 rootCommand.AddCommand(VisitCommand.Build(sessionService));
+rootCommand.AddCommand(WatchCommand.Build(sessionService));
 rootCommand.AddCommand(LogCommand.Build(sessionService));
 rootCommand.AddCommand(ListCommand.Build(sessionService));
 rootCommand.AddCommand(ClearCommand.Build(sessionService));

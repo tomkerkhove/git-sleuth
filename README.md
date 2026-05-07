@@ -1,73 +1,68 @@
 # Git Navigator
 
-Git Navigator is your **travel buddy** CLI that keeps track of all Git branches you visit during a CLI session.
+Git Navigator is your **travel buddy** CLI — a .NET global tool that automatically tracks every Git branch you visit during a CLI session.
 
-Never lose track of where you've been — every branch switch is recorded so you can always look back at your journey.
+Run it as a background sleuth and it silently watches your repository for branch changes, recording your complete navigation history. Never lose track of where you've been.
+
+```
+🔍 Git Navigator sleuth is watching '/projects/my-repo' (every 2s). Press Ctrl+C to stop.
+
+[09:14:02] Switched to branch 'feature/login'
+[09:31:17] Switched to branch 'main'
+[09:33:05] Switched to branch 'hotfix/typo'
+
+Sleuth stopped. Recorded 3 visits across 3 unique branches this session.
+```
+
+---
 
 ## Installation
 
-Install as a [.NET global tool](https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools) (requires [.NET 9 SDK](https://dotnet.microsoft.com/download)):
+Requires [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0) or later.
 
 ```bash
 dotnet tool install --global GitNavigator.Cli
 ```
 
-After installation, the `git-navigator` command is available anywhere in your terminal.
+---
 
-## Usage
-
-### Record a branch visit
+## Quick start
 
 ```bash
-# Automatically detect and record the current git branch
-git-navigator visit
+# 1. Start the sleuth in your repo
+cd ~/projects/my-repo
+git-navigator watch
 
-# Or specify a branch name explicitly
-git-navigator visit <branch-name>
+# 2. Switch branches however you like — terminal, IDE, GUI — the sleuth catches them all
+
+# 3. Review your journey at any time
+git-navigator log     # full history with timestamps
+git-navigator list    # unique branches visited
 ```
 
-### View your branch visit log
+---
 
-```bash
-# Full chronological log with timestamps and working directories
-git-navigator log
+## Commands
 
-# Unique branches visited (deduplicated)
-git-navigator list
-```
+| Command | Description |
+|---|---|
+| `git-navigator watch` | 🔍 Start the sleuth — auto-detect and record every branch change |
+| `git-navigator log` | Show the full chronological visit history |
+| `git-navigator list` | Show the unique branches visited this session |
+| `git-navigator visit [branch]` | Manually record a branch visit |
+| `git-navigator clear` | Reset the session history |
 
-### Clear the session history
+---
 
-```bash
-git-navigator clear
-```
+## Documentation
 
-## Session Tracking
+| Guide | Description |
+|---|---|
+| [Getting Started](docs/getting-started.md) | Installation, first session walkthrough |
+| [Commands Reference](docs/commands.md) | All commands, options, and examples |
+| [Automatic Tracking](docs/automatic-tracking.md) | How the sleuth works, session scoping, workflows, and limitations |
 
-Branch visits are stored in a temporary JSON file keyed to your current shell session (by parent process ID), so:
-
-- Every terminal window/tab has its own independent history.
-- History is automatically scoped to the lifetime of your shell session.
-- You can pin a session ID explicitly by setting the `GIT_NAVIGATOR_SESSION` environment variable — useful for shell integrations or scripting.
-
-### Shell integration (optional)
-
-For automatic tracking every time you run `git checkout` or `git switch`, add a `post-checkout` hook to your repository:
-
-```bash
-# .git/hooks/post-checkout
-#!/bin/sh
-git-navigator visit "$1"
-```
-
-Or set up a shell alias that records the visit:
-
-```bash
-# In your ~/.bashrc or ~/.zshrc
-gco() {
-  git checkout "$@" && git-navigator visit
-}
-```
+---
 
 ## License Information
 
