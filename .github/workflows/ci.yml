@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
+
+      - name: Restore
+        run: dotnet restore git-sleuth.slnx
+
+      - name: Build
+        run: dotnet build git-sleuth.slnx --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test tests/GitSleuth.Cli.Tests/GitSleuth.Cli.Tests.csproj --no-build --configuration Release --verbosity normal

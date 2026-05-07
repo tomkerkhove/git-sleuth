@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/GitSleuth.Cli/GitSleuth.Cli.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/GitSleuth.Cli.Tests/GitSleuth.Cli.Tests.csproj" />
+  </Folder>
+</Solution>
