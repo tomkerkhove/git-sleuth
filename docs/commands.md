@@ -73,6 +73,8 @@ Session statistics (6 visits, 3 unique branches):
     hotfix/typo   1 visit
 ```
 
+Duration formatting uses `Xm Ys` below one hour and `Xh Ym Zs` at one hour or above (for example: `1h 2m 3s`).
+
 ---
 
 ## `log` — full visit history
