@@ -47,6 +47,7 @@ git-sleuth list    # unique branches visited
 | Command | Description |
 |---|---|
 | `git-sleuth watch` | 🔍 Start the sleuth — auto-detect and record every branch change |
+| `git-sleuth stats` | Show session statistics: visit counts, duration, most visited branch |
 | `git-sleuth log` | Show the full chronological visit history |
 | `git-sleuth list` | Show the unique branches visited this session |
 | `git-sleuth visit [branch]` | Manually record a branch visit |

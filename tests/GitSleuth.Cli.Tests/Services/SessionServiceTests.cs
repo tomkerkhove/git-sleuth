@@ -106,6 +106,73 @@ public class SessionServiceTests : IDisposable
     }
 
     [Fact]
+    public void GetBranchVisitCounts_WhenNoVisits_ReturnsEmptyList()
+    {
+        var counts = _sut.GetBranchVisitCounts();
+
+        Assert.Empty(counts);
+    }
+
+    [Fact]
+    public void GetBranchVisitCounts_SingleBranch_ReturnsCountOfOne()
+    {
+        _sut.RecordVisit("main");
+
+        var counts = _sut.GetBranchVisitCounts();
+
+        Assert.Single(counts);
+        Assert.Equal("main", counts[0].BranchName);
+        Assert.Equal(1, counts[0].Count);
+    }
+
+    [Fact]
+    public void GetBranchVisitCounts_MultipleBranches_SortedByCountDescending()
+    {
+        _sut.RecordVisit("main");
+        _sut.RecordVisit("feature/one");
+        _sut.RecordVisit("main");
+        _sut.RecordVisit("main");
+        _sut.RecordVisit("feature/one");
+
+        var counts = _sut.GetBranchVisitCounts();
+
+        Assert.Equal(2, counts.Count);
+        Assert.Equal("main", counts[0].BranchName);
+        Assert.Equal(3, counts[0].Count);
+        Assert.Equal("feature/one", counts[1].BranchName);
+        Assert.Equal(2, counts[1].Count);
+    }
+
+    [Fact]
+    public void GetBranchVisitCounts_TiesAreResolvedAlphabetically()
+    {
+        _sut.RecordVisit("zebra");
+        _sut.RecordVisit("alpha");
+
+        var counts = _sut.GetBranchVisitCounts();
+
+        Assert.Equal(2, counts.Count);
+        Assert.Equal("alpha", counts[0].BranchName);
+        Assert.Equal("zebra", counts[1].BranchName);
+    }
+
+    [Fact]
+    public void GetBranchVisitCounts_AllCountsAreAccurate()
+    {
+        _sut.RecordVisit("main");
+        _sut.RecordVisit("feature/one");
+        _sut.RecordVisit("main");
+        _sut.RecordVisit("feature/two");
+
+        var counts = _sut.GetBranchVisitCounts();
+        var dict = counts.ToDictionary(x => x.BranchName, x => x.Count);
+
+        Assert.Equal(2, dict["main"]);
+        Assert.Equal(1, dict["feature/one"]);
+        Assert.Equal(1, dict["feature/two"]);
+    }
+
+    [Fact]
     public void ClearSession_RemovesAllVisits()
     {
         _sut.RecordVisit("main");

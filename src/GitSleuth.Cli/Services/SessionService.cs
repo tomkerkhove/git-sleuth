@@ -58,6 +58,21 @@ public class SessionService
     }
 
     /// <summary>
+    /// Returns the branches visited in the current session, sorted by visit count descending.
+    /// Each entry contains the branch name and how many times it was visited.
+    /// </summary>
+    public IReadOnlyList<(string BranchName, int Count)> GetBranchVisitCounts()
+    {
+        return LoadSession().Visits
+            .GroupBy(v => v.BranchName, StringComparer.Ordinal)
+            .Select(g => (BranchName: g.Key, Count: g.Count()))
+            .OrderByDescending(x => x.Count)
+            .ThenBy(x => x.BranchName, StringComparer.Ordinal)
+            .ToList()
+            .AsReadOnly();
+    }
+
+    /// <summary>
     /// Clears all visits recorded in the current session.
     /// </summary>
     public void ClearSession()

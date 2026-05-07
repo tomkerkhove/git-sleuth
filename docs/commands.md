@@ -44,6 +44,37 @@ git-sleuth watch --quiet &
 
 ---
 
+## `stats` — session statistics
+
+> Show statistics about the branches visited in the current session.
+
+```bash
+git-sleuth stats
+```
+
+Displays:
+- Total visits and unique branch count
+- Session start time, end time, and duration
+- Per-branch visit counts sorted from most to least visited
+
+### Example output
+
+```
+Session statistics (6 visits, 3 unique branches):
+
+  Session started:  2026-05-07 09:14:02
+  Session ended:    2026-05-07 10:05:33
+  Duration:         51m 31s
+
+  Branch visit counts (most visited first):
+
+    main          3 visits
+    feature/login 2 visits
+    hotfix/typo   1 visit
+```
+
+---
+
 ## `log` — full visit history
 
 > Show the complete chronological list of branch visits recorded this session.
