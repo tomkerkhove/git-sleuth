@@ -52,6 +52,26 @@ public class SessionServiceTests : IDisposable
     }
 
     [Fact]
+    public void RecordVisit_StoresCommitSha()
+    {
+        _sut.RecordVisit("main", "/repo", "abc1234");
+
+        var visits = _sut.GetVisits();
+        Assert.Single(visits);
+        Assert.Equal("abc1234", visits[0].CommitSha);
+    }
+
+    [Fact]
+    public void RecordVisit_CommitShaIsNull_WhenNotProvided()
+    {
+        _sut.RecordVisit("main");
+
+        var visits = _sut.GetVisits();
+        Assert.Single(visits);
+        Assert.Null(visits[0].CommitSha);
+    }
+
+    [Fact]
     public void RecordVisit_MultipleVisits_AllAppearInChronologicalOrder()
     {
         _sut.RecordVisit("main");

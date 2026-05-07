@@ -23,16 +23,17 @@ public class SessionService
     }
 
     /// <summary>
-    /// Records a visit to the specified branch, optionally capturing the working directory.
+    /// Records a visit to the specified branch, optionally capturing the working directory and commit SHA.
     /// </summary>
-    public void RecordVisit(string branchName, string? workingDirectory = null)
+    public void RecordVisit(string branchName, string? workingDirectory = null, string? commitSha = null)
     {
         var session = LoadSession();
         session.Visits.Add(new BranchVisit
         {
             BranchName = branchName,
             VisitedAt = DateTimeOffset.UtcNow,
-            WorkingDirectory = workingDirectory
+            WorkingDirectory = workingDirectory,
+            CommitSha = commitSha
         });
         SaveSession(session);
     }

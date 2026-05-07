@@ -27,7 +27,8 @@ public static class VisitCommand
                 return;
             }
 
-            sessionService.RecordVisit(branchName, workingDirectory);
+            var commitSha = GitService.GetCurrentCommit(workingDirectory);
+            sessionService.RecordVisit(branchName, workingDirectory, commitSha);
             Console.WriteLine($"Visited branch '{branchName}'.");
         }, branchArgument);
 

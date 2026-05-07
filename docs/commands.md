@@ -86,7 +86,7 @@ git-sleuth log
 Each entry shows:
 - A sequential index
 - The local timestamp of the visit
-- The branch name
+- The branch name and the short commit SHA at the time of the visit (when available)
 - The working directory at the time
 
 ### Example output
@@ -94,9 +94,9 @@ Each entry shows:
 ```
 Branch visit log (4 visits):
 
-    1. [2026-05-07 09:14:02]  feature/login
+    1. [2026-05-07 09:14:02]  feature/login  (abc1234)
        /Users/you/projects/my-repo
-    2. [2026-05-07 09:31:17]  main
+    2. [2026-05-07 09:31:17]  main  (def5678)
        /Users/you/projects/my-repo
     3. [2026-05-07 09:33:05]  hotfix/typo
        /Users/you/projects/my-repo

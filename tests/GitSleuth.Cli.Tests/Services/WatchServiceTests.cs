@@ -124,6 +124,52 @@ public class WatchServiceTests : IDisposable
     }
 
     [Fact]
+    public async Task WatchAsync_StoresCommitSha_WithEachVisit()
+    {
+        var branches = new Queue<string?>(["main", "feature/x"]);
+        var commits = new Queue<string?>(["abc1234", "def5678"]);
+        var sut = new WatchService(
+            _sessionService,
+            _ => branches.TryDequeue(out var b) ? b : "feature/x",
+            _ => commits.TryDequeue(out var c) ? c : "def5678");
+
+        using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(200));
+
+        await sut.WatchAsync(
+            directory: "/repo",
+            interval: TimeSpan.FromMilliseconds(20),
+            onBranchChanged: null,
+            cancellationToken: cts.Token);
+
+        var visits = _sessionService.GetVisits();
+        Assert.True(visits.Count >= 2);
+        Assert.Equal("abc1234", visits[0].CommitSha);
+        Assert.Equal("def5678", visits[1].CommitSha);
+    }
+
+    [Fact]
+    public async Task WatchAsync_CommitShaIsNull_WhenGetCurrentCommitReturnsNull()
+    {
+        var branches = new Queue<string?>(["main"]);
+        var sut = new WatchService(
+            _sessionService,
+            _ => branches.TryDequeue(out var b) ? b : null,
+            _ => null);
+
+        using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(100));
+
+        await sut.WatchAsync(
+            directory: "/repo",
+            interval: TimeSpan.FromMilliseconds(20),
+            onBranchChanged: null,
+            cancellationToken: cts.Token);
+
+        var visits = _sessionService.GetVisits();
+        Assert.Single(visits);
+        Assert.Null(visits[0].CommitSha);
+    }
+
+    [Fact]
     public async Task WatchAsync_RecordsReturnVisit_WhenSwitchingBackToPreviousBranch()
     {
         // main → feature → main: all three should be recorded
