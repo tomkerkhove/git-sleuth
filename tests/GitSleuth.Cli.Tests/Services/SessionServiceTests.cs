@@ -1,7 +1,7 @@
-using GitNavigator.Cli.Services;
+using GitSleuth.Cli.Services;
 using Xunit;
 
-namespace GitNavigator.Cli.Tests.Services;
+namespace GitSleuth.Cli.Tests.Services;
 
 public class SessionServiceTests : IDisposable
 {
@@ -10,7 +10,7 @@ public class SessionServiceTests : IDisposable
 
     public SessionServiceTests()
     {
-        _sessionFilePath = Path.Combine(Path.GetTempPath(), $"git-navigator-test-{Guid.NewGuid():N}.json");
+        _sessionFilePath = Path.Combine(Path.GetTempPath(), $"git-sleuth-test-{Guid.NewGuid():N}.json");
         _sut = new SessionService(_sessionFilePath);
     }
 
@@ -162,32 +162,32 @@ public class SessionServiceTests : IDisposable
     [Fact]
     public void GetShellSessionId_WhenEnvVarIsSet_ReturnsEnvVarValue()
     {
-        var originalValue = Environment.GetEnvironmentVariable("GIT_NAVIGATOR_SESSION");
+        var originalValue = Environment.GetEnvironmentVariable("GIT_SLEUTH_SESSION");
         try
         {
-            Environment.SetEnvironmentVariable("GIT_NAVIGATOR_SESSION", "test-session-123");
+            Environment.SetEnvironmentVariable("GIT_SLEUTH_SESSION", "test-session-123");
             var id = SessionService.GetShellSessionId();
             Assert.Equal("test-session-123", id);
         }
         finally
         {
-            Environment.SetEnvironmentVariable("GIT_NAVIGATOR_SESSION", originalValue);
+            Environment.SetEnvironmentVariable("GIT_SLEUTH_SESSION", originalValue);
         }
     }
 
     [Fact]
     public void GetShellSessionId_WhenEnvVarIsNotSet_ReturnsNonEmptyString()
     {
-        var originalValue = Environment.GetEnvironmentVariable("GIT_NAVIGATOR_SESSION");
+        var originalValue = Environment.GetEnvironmentVariable("GIT_SLEUTH_SESSION");
         try
         {
-            Environment.SetEnvironmentVariable("GIT_NAVIGATOR_SESSION", null);
+            Environment.SetEnvironmentVariable("GIT_SLEUTH_SESSION", null);
             var id = SessionService.GetShellSessionId();
             Assert.False(string.IsNullOrWhiteSpace(id));
         }
         finally
         {
-            Environment.SetEnvironmentVariable("GIT_NAVIGATOR_SESSION", originalValue);
+            Environment.SetEnvironmentVariable("GIT_SLEUTH_SESSION", originalValue);
         }
     }
 }

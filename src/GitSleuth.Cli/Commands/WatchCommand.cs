@@ -1,8 +1,8 @@
 using System.CommandLine;
 using System.CommandLine.Invocation;
-using GitNavigator.Cli.Services;
+using GitSleuth.Cli.Services;
 
-namespace GitNavigator.Cli.Commands;
+namespace GitSleuth.Cli.Commands;
 
 public static class WatchCommand
 {
@@ -41,7 +41,7 @@ public static class WatchCommand
 
             if (!quiet)
             {
-                Console.WriteLine($"🔍 Git Navigator sleuth is watching '{directory}' (every {interval.TotalSeconds}s). Press Ctrl+C to stop.");
+                Console.WriteLine($"🔍 Git Sleuth sleuth is watching '{directory}' (every {interval.TotalSeconds}s). Press Ctrl+C to stop.");
                 Console.WriteLine();
             }
 

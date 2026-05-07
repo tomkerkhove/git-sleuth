@@ -3,16 +3,16 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
-    <AssemblyName>git-navigator</AssemblyName>
-    <RootNamespace>GitNavigator.Cli</RootNamespace>
+    <AssemblyName>git-sleuth</AssemblyName>
+    <RootNamespace>GitSleuth.Cli</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>git-navigator</ToolCommandName>
-    <PackageId>GitNavigator.Cli</PackageId>
+    <ToolCommandName>git-sleuth</ToolCommandName>
+    <PackageId>GitSleuth.Cli</PackageId>
     <Version>1.0.0</Version>
     <Authors>Tom Kerkhove</Authors>
-    <Description>A travel buddy CLI that tracks all Git branches visited during a CLI session.</Description>
+    <Description>A sleuth CLI that automatically tracks every Git branch visited during a CLI session.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
@@ -27,7 +27,7 @@
 
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-      <_Parameter1>GitNavigator.Cli.Tests</_Parameter1>
+      <_Parameter1>GitSleuth.Cli.Tests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 

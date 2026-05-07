@@ -1,7 +1,7 @@
-using GitNavigator.Cli.Services;
+using GitSleuth.Cli.Services;
 using Xunit;
 
-namespace GitNavigator.Cli.Tests.Services;
+namespace GitSleuth.Cli.Tests.Services;
 
 public class WatchServiceTests : IDisposable
 {
@@ -10,7 +10,7 @@ public class WatchServiceTests : IDisposable
 
     public WatchServiceTests()
     {
-        _sessionFilePath = Path.Combine(Path.GetTempPath(), $"git-navigator-watch-test-{Guid.NewGuid():N}.json");
+        _sessionFilePath = Path.Combine(Path.GetTempPath(), $"git-sleuth-watch-test-{Guid.NewGuid():N}.json");
         _sessionService = new SessionService(_sessionFilePath);
     }
 

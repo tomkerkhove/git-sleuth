@@ -1,4 +1,4 @@
-namespace GitNavigator.Cli.Models;
+namespace GitSleuth.Cli.Models;
 
 public class Session
 {

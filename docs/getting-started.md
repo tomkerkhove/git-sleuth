@@ -1,6 +1,6 @@
-# Getting Started with Git Navigator
+# Getting Started with Git Sleuth
 
-Git Navigator is a .NET global tool that automatically tracks every Git branch you visit during a CLI session — no manual tagging, no discipline required.
+Git Sleuth is a .NET global tool that automatically tracks every Git branch you visit during a CLI session — no manual tagging, no discipline required.
 
 ---
 
@@ -13,28 +13,28 @@ Git Navigator is a .NET global tool that automatically tracks every Git branch y
 
 ## Installation
 
-Install git-navigator as a [.NET global tool](https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools):
+Install git-sleuth as a [.NET global tool](https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools):
 
 ```bash
-dotnet tool install --global GitNavigator.Cli
+dotnet tool install --global GitSleuth.Cli
 ```
 
 Verify the installation worked:
 
 ```bash
-git-navigator --version
+git-sleuth --version
 ```
 
 To upgrade to a newer version later:
 
 ```bash
-dotnet tool update --global GitNavigator.Cli
+dotnet tool update --global GitSleuth.Cli
 ```
 
 To uninstall:
 
 ```bash
-dotnet tool uninstall --global GitNavigator.Cli
+dotnet tool uninstall --global GitSleuth.Cli
 ```
 
 ---
@@ -47,13 +47,13 @@ Open a terminal, navigate to any Git repository, and start the automatic watcher
 
 ```bash
 cd ~/projects/my-repo
-git-navigator watch
+git-sleuth watch
 ```
 
 You'll see:
 
 ```
-🔍 Git Navigator sleuth is watching '/Users/you/projects/my-repo' (every 2s). Press Ctrl+C to stop.
+🔍 Git Sleuth sleuth is watching '/Users/you/projects/my-repo' (every 2s). Press Ctrl+C to stop.
 ```
 
 The sleuth is now running in the background of that terminal pane, silently watching for branch changes.
@@ -84,10 +84,10 @@ In any terminal pane, at any point:
 
 ```bash
 # Full log with timestamps
-git-navigator log
+git-sleuth log
 
 # Just the unique branches (deduplicated)
-git-navigator list
+git-sleuth list
 ```
 
 Example `log` output:

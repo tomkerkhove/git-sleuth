@@ -1,10 +1,10 @@
 using System.CommandLine;
-using GitNavigator.Cli.Commands;
-using GitNavigator.Cli.Services;
+using GitSleuth.Cli.Commands;
+using GitSleuth.Cli.Services;
 
 var sessionService = new SessionService();
 
-var rootCommand = new RootCommand("Git Navigator - your travel buddy for tracking Git branch visits in a CLI session.");
+var rootCommand = new RootCommand("Git Sleuth - your travel buddy for tracking Git branch visits in a CLI session.");
 
 rootCommand.AddCommand(VisitCommand.Build(sessionService));
 rootCommand.AddCommand(WatchCommand.Build(sessionService));

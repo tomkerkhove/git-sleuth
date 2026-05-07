@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace GitNavigator.Cli.Services;
+namespace GitSleuth.Cli.Services;
 
 public static class GitService
 {

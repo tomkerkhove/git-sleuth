@@ -1,7 +1,7 @@
 using System.CommandLine;
-using GitNavigator.Cli.Services;
+using GitSleuth.Cli.Services;
 
-namespace GitNavigator.Cli.Commands;
+namespace GitSleuth.Cli.Commands;
 
 public static class LogCommand
 {
@@ -15,7 +15,7 @@ public static class LogCommand
             if (visits.Count == 0)
             {
                 Console.WriteLine("No branches have been visited in this session yet.");
-                Console.WriteLine("Use 'git-navigator visit' to record a branch visit.");
+                Console.WriteLine("Use 'git-sleuth visit' to record a branch visit.");
                 return;
             }
 

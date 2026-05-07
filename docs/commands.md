@@ -1,9 +1,9 @@
 # Commands Reference
 
-Git Navigator exposes five commands. Run any command with `--help` to see its options inline.
+Git Sleuth exposes five commands. Run any command with `--help` to see its options inline.
 
 ```
-git-navigator [command] [options]
+git-sleuth [command] [options]
 ```
 
 ---
@@ -13,7 +13,7 @@ git-navigator [command] [options]
 > Run as a background agent that automatically detects and records every branch change.
 
 ```bash
-git-navigator watch [options]
+git-sleuth watch [options]
 ```
 
 | Option | Default | Description |
@@ -27,19 +27,19 @@ git-navigator watch [options]
 Watch the current directory with default settings:
 
 ```bash
-git-navigator watch
+git-sleuth watch
 ```
 
 Watch a specific repository every second:
 
 ```bash
-git-navigator watch --directory ~/projects/my-repo --interval 1
+git-sleuth watch --directory ~/projects/my-repo --interval 1
 ```
 
 Watch silently (no output) — useful when running in the background:
 
 ```bash
-git-navigator watch --quiet &
+git-sleuth watch --quiet &
 ```
 
 ---
@@ -49,7 +49,7 @@ git-navigator watch --quiet &
 > Show the complete chronological list of branch visits recorded this session.
 
 ```bash
-git-navigator log
+git-sleuth log
 ```
 
 Each entry shows:
@@ -80,7 +80,7 @@ Branch visit log (4 visits):
 > Show the distinct set of branches visited this session, in the order they were first visited.
 
 ```bash
-git-navigator list
+git-sleuth list
 ```
 
 Visits to the same branch more than once are deduplicated — only the first visit is counted for ordering.
@@ -102,7 +102,7 @@ Branches visited this session (3 unique):
 > Manually record a visit to a branch. Useful when you don't want to run the sleuth continuously, or for scripting.
 
 ```bash
-git-navigator visit [<branch>]
+git-sleuth visit [<branch>]
 ```
 
 | Argument | Description |
@@ -114,13 +114,13 @@ git-navigator visit [<branch>]
 Record the current branch automatically:
 
 ```bash
-git-navigator visit
+git-sleuth visit
 ```
 
 Record a specific branch by name:
 
 ```bash
-git-navigator visit feature/payments
+git-sleuth visit feature/payments
 ```
 
 ---
@@ -130,7 +130,7 @@ git-navigator visit feature/payments
 > Remove all visits recorded in the current session.
 
 ```bash
-git-navigator clear
+git-sleuth clear
 ```
 
 This is useful when you want to start a fresh travel log without opening a new terminal window.
@@ -138,16 +138,16 @@ This is useful when you want to start a fresh travel log without opening a new t
 ### Example
 
 ```bash
-$ git-navigator list
+$ git-sleuth list
 Branches visited this session (3 unique):
 
   - main
   - feature/login
   - hotfix/typo
 
-$ git-navigator clear
+$ git-sleuth clear
 Session history cleared.
 
-$ git-navigator list
+$ git-sleuth list
 No branches have been visited in this session yet.
 ```

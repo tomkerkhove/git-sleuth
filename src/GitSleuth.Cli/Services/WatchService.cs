@@ -1,6 +1,6 @@
-using GitNavigator.Cli.Models;
+using GitSleuth.Cli.Models;
 
-namespace GitNavigator.Cli.Services;
+namespace GitSleuth.Cli.Services;
 
 /// <summary>
 /// Watches a directory for Git branch changes and records visits automatically.

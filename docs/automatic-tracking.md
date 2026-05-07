@@ -1,12 +1,12 @@
 # Automatic Branch Tracking
 
-Git Navigator's `watch` command acts as a silent sleuth — a background agent that continuously monitors your Git repository and records every branch switch automatically, without any manual intervention.
+Git Sleuth's `watch` command acts as a silent sleuth — a background agent that continuously monitors your Git repository and records every branch switch automatically, without any manual intervention.
 
 ---
 
 ## How it works
 
-When you run `git-navigator watch`, it starts a polling loop that:
+When you run `git-sleuth watch`, it starts a polling loop that:
 
 1. Calls `git branch --show-current` in the watched directory at a regular interval (default: every 2 seconds)
 2. Compares the result to the last recorded branch
@@ -19,9 +19,9 @@ Because the detection is based on polling the repository state rather than inter
 
 ## Session scoping
 
-Every terminal window (or tab) has its own independent session history. Git Navigator identifies a session by the **parent process ID** (the PID of your shell), so:
+Every terminal window (or tab) has its own independent session history. Git Sleuth identifies a session by the **parent process ID** (the PID of your shell), so:
 
-- All `git-navigator` invocations within the same terminal share the same session file
+- All `git-sleuth` invocations within the same terminal share the same session file
 - Opening a new terminal starts a fresh session
 - History is stored in your system's temp folder and is cleaned up automatically by the OS
 
@@ -31,7 +31,7 @@ If you need multiple terminal windows to share the same history — for example,
 
 ```bash
 export GIT_NAVIGATOR_SESSION=my-feature-sprint
-git-navigator watch &
+git-sleuth watch &
 ```
 
 Any other terminal with the same `GIT_NAVIGATOR_SESSION` value will read from and write to the same session file.
@@ -46,7 +46,7 @@ The simplest way to use the sleuth is to dedicate one pane to it and work in oth
 
 ```
 ┌────────────────────────┬────────────────────────┐
-│  git-navigator watch   │  your normal work here │
+│  git-sleuth watch   │  your normal work here │
 │                        │                        │
 │ [09:14] feature/login  │  $ git checkout main   │
 │ [09:31] main           │  $ vim README.md       │
@@ -60,28 +60,28 @@ If you don't want to dedicate a pane, run the sleuth silently in the background:
 
 ```bash
 # Start silently in the background
-git-navigator watch --quiet &
+git-sleuth watch --quiet &
 
 # Do your work normally...
 git checkout feature/x
 git checkout main
 
 # Review when ready
-git-navigator log
+git-sleuth log
 ```
 
-> **Tip:** Add `git-navigator watch --quiet &` to your shell's per-directory hook (e.g. a `.envrc` file with [direnv](https://direnv.net/)) to auto-start tracking whenever you `cd` into a repository.
+> **Tip:** Add `git-sleuth watch --quiet &` to your shell's per-directory hook (e.g. a `.envrc` file with [direnv](https://direnv.net/)) to auto-start tracking whenever you `cd` into a repository.
 
 ### Watching multiple repositories at once
 
 Start a watcher for each repository you're actively working in:
 
 ```bash
-git-navigator watch --directory ~/projects/frontend --quiet &
-git-navigator watch --directory ~/projects/backend --quiet &
+git-sleuth watch --directory ~/projects/frontend --quiet &
+git-sleuth watch --directory ~/projects/backend --quiet &
 ```
 
-Both watchers share the same session, so `git-navigator log` will show branches from all repositories interleaved chronologically.
+Both watchers share the same session, so `git-sleuth log` will show branches from all repositories interleaved chronologically.
 
 ---
 
@@ -91,10 +91,10 @@ The default interval of 2 seconds is a balance between responsiveness and resour
 
 ```bash
 # More responsive — detect switches within 1 second
-git-navigator watch --interval 1
+git-sleuth watch --interval 1
 
 # Lower resource use — check every 5 seconds
-git-navigator watch --interval 5
+git-sleuth watch --interval 5
 ```
 
 The minimum effective interval is 1 second (values lower than 1 are clamped to 1).

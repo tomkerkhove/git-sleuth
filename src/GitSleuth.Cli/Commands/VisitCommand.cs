@@ -1,7 +1,7 @@
 using System.CommandLine;
-using GitNavigator.Cli.Services;
+using GitSleuth.Cli.Services;
 
-namespace GitNavigator.Cli.Commands;
+namespace GitSleuth.Cli.Commands;
 
 public static class VisitCommand
 {

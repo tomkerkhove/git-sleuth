@@ -1,7 +1,7 @@
 using System.Text.Json;
-using GitNavigator.Cli.Models;
+using GitSleuth.Cli.Models;
 
-namespace GitNavigator.Cli.Services;
+namespace GitSleuth.Cli.Services;
 
 public class SessionService
 {
@@ -100,19 +100,19 @@ public class SessionService
     private static string ResolveSessionFilePath()
     {
         var sessionId = GetShellSessionId();
-        var fileName = $"git-navigator-session-{sessionId}.json";
+        var fileName = $"git-sleuth-session-{sessionId}.json";
         return Path.Combine(Path.GetTempPath(), fileName);
     }
 
     /// <summary>
     /// Returns a stable identifier for the current shell session.
-    /// Checks the GIT_NAVIGATOR_SESSION environment variable first, then falls back
+    /// Checks the GIT_SLEUTH_SESSION environment variable first, then falls back
     /// to the parent process ID (Unix) or Windows logon session ID.
     /// </summary>
     internal static string GetShellSessionId()
     {
         // Allow callers to pin a session ID explicitly (useful for shell integrations and tests)
-        var envSessionId = Environment.GetEnvironmentVariable("GIT_NAVIGATOR_SESSION");
+        var envSessionId = Environment.GetEnvironmentVariable("GIT_SLEUTH_SESSION");
         if (!string.IsNullOrWhiteSpace(envSessionId))
         {
             return envSessionId;
