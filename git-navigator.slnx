@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/GitNavigator.Cli/GitNavigator.Cli.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/GitNavigator.Cli.Tests/GitNavigator.Cli.Tests.csproj" />
+  </Folder>
+</Solution>
