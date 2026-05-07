@@ -50,16 +50,11 @@ public static class StatsCommand
 
     private static string FormatDuration(TimeSpan duration)
     {
-        if (duration.TotalSeconds < 60)
+        if (duration.TotalHours >= 1)
         {
-            return "< 1 minute";
+            return $"{(int)duration.TotalHours}h {duration.Minutes}m {duration.Seconds}s";
         }
 
-        if (duration.TotalHours < 1)
-        {
-            return $"{(int)duration.TotalMinutes}m {duration.Seconds:D2}s";
-        }
-
-        return $"{(int)duration.TotalHours}h {duration.Minutes:D2}m";
+        return $"{(int)duration.TotalMinutes}m {duration.Seconds}s";
     }
 }

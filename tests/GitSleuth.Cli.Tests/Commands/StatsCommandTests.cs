@@ -1,5 +1,7 @@
 using System.CommandLine;
+using System.Text.Json;
 using GitSleuth.Cli.Commands;
+using GitSleuth.Cli.Models;
 using GitSleuth.Cli.Services;
 using Xunit;
 
@@ -111,6 +113,32 @@ public class StatsCommandTests : IDisposable
     }
 
     [Fact]
+    public async Task Stats_DurationUnderMinute_ShowsMinutesAndSeconds()
+    {
+        var start = new DateTimeOffset(2026, 05, 07, 09, 14, 02, TimeSpan.Zero);
+        SeedVisits(
+            ("main", start),
+            ("feature/one", start.AddSeconds(45)));
+
+        var output = await CaptureOutputAsync(() => StatsCommand.Build(_sessionService).InvokeAsync([]));
+
+        Assert.Contains("Duration:         0m 45s", output);
+    }
+
+    [Fact]
+    public async Task Stats_DurationOverHour_ShowsHoursMinutesAndSeconds()
+    {
+        var start = new DateTimeOffset(2026, 05, 07, 09, 14, 02, TimeSpan.Zero);
+        SeedVisits(
+            ("main", start),
+            ("feature/one", start.AddHours(1).AddMinutes(2).AddSeconds(3)));
+
+        var output = await CaptureOutputAsync(() => StatsCommand.Build(_sessionService).InvokeAsync([]));
+
+        Assert.Contains("Duration:         1h 2m 3s", output);
+    }
+
+    [Fact]
     public async Task Stats_ShowsBranchVisitCounts()
     {
         _sessionService.RecordVisit("main");
@@ -185,5 +213,23 @@ public class StatsCommandTests : IDisposable
         {
             Console.SetOut(original);
         }
+    }
+
+    private void SeedVisits(params (string Branch, DateTimeOffset VisitedAt)[] visits)
+    {
+        var session = new Session
+        {
+            SessionId = "stats-test",
+            Visits = visits
+                .Select(v => new BranchVisit
+                {
+                    BranchName = v.Branch,
+                    VisitedAt = v.VisitedAt
+                })
+                .ToList()
+        };
+
+        var json = JsonSerializer.Serialize(session, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(_sessionFilePath, json);
     }
 }
