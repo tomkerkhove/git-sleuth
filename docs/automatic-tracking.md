@@ -27,14 +27,14 @@ Every terminal window (or tab) has its own independent session history. Git Sleu
 
 ### Pinning a session ID
 
-If you need multiple terminal windows to share the same history — for example, in a CI pipeline or a scripted workflow — set the `GIT_NAVIGATOR_SESSION` environment variable to any string:
+If you need multiple terminal windows to share the same history — for example, in a CI pipeline or a scripted workflow — set the `GIT_SLEUTH_SESSION` environment variable to any string:
 
 ```bash
-export GIT_NAVIGATOR_SESSION=my-feature-sprint
+export GIT_SLEUTH_SESSION=my-feature-sprint
 git-sleuth watch &
 ```
 
-Any other terminal with the same `GIT_NAVIGATOR_SESSION` value will read from and write to the same session file.
+Any other terminal with the same `GIT_SLEUTH_SESSION` value will read from and write to the same session file.
 
 ---
 
